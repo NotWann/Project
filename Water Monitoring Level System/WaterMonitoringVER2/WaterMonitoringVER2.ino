@@ -13,9 +13,9 @@
 // Create SSD1306 display object
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
 
-#define MOD 27
-#define NEXT 26
-#define HOLD 25
+#define MOD 27    // Hijau
+#define NEXT 26   //Kuning
+#define HOLD 25   //Merah
 
 
 #define TRIG_PIN 32
@@ -106,8 +106,7 @@ void modButton() {
     delay(100);
     modMenu = (modMenu + 1) % 2;
     sound();
-    while (digitalRead(MOD) == LOW)
-      ;
+    while (digitalRead(MOD) == LOW);
   }
 
   if (modMenu == 1) {
