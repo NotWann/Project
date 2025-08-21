@@ -272,10 +272,6 @@ void handleStartButton() {
   int currentState_Start = digitalRead(buttonPin_Start);
   if (currentState_Start == LOW && lastState_Start == HIGH) {
     Serial.println("Start Button Pressed");
-    if (lock_rfid_reading != 1) {
-      Serial.println("Start Button Ignored: No RFID card scanned");
-      return; // Exit if no RFID card has been scanned
-    }
     if (lock_Start == 0) {
       Serial.println("Start System");
       digitalWrite(led_Start, HIGH);
@@ -284,7 +280,7 @@ void handleStartButton() {
       sound();
       lock_Start = 1;
       // Check for pre-detected object to start new cycle
-      if (object_detected_first && !pump_active_soap && !pump_active_pewangi) {
+      if (object_detected_first && lock_rfid_reading == 1 && !pump_active_soap && !pump_active_pewangi) {
         if ((soap_menu >= 1 && soap_menu <= 3)) {
           remaining_duration_soap = pump_on_duration_soap;
           startSoapPump();

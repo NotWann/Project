@@ -515,7 +515,7 @@ void readRFID() {
     card_id = 2;
     lock_rfid_reading = 1;
     status = 0; // WAITING
-  } else {
+  } else if ((receivedValue != 1 || receivedValue != 2) && lock_rfid_reading == 1) {
     Serial.println(F("Unknown value received, ignoring."));
     card_id = 0;
     lock_rfid_reading = 0;
@@ -739,6 +739,8 @@ void checkPumpTimers() {
   if (pump_active_soap && currentMillis - pump_start_time_soap >= remaining_duration_soap) {
     digitalWrite(relay_pump_soap, LOW);
     digitalWrite(buzzerPin, LOW);
+    lock_rfid_reading = 0;
+    card_id = 0;
     set = 0;
     status = 2; // FINISH
     pump_active_soap = false;
@@ -763,6 +765,8 @@ void checkPumpTimers() {
   if (pump_active_pewangi && currentMillis - pump_start_time_pewangi >= remaining_duration_pewangi) {
     digitalWrite(relay_pump_pewangi, LOW);
     digitalWrite(buzzerPin, LOW);
+    lock_rfid_reading = 0;
+    card_id = 0;
     set = 0;
     status = 2; // FINISH
     pump_active_pewangi = false;
